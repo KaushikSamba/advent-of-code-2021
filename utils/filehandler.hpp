@@ -16,32 +16,36 @@
 #include <iostream>
 #include <vector>
 
-namespace utils {
+namespace utils
+{
 
-class FileHandler {
-  public:
+class FileHandler
+{
+public:
     FileHandler(std::string);
     ~FileHandler();
-    template <typename T> std::istream &operator>>(T &);
-    template <typename T> void comma_separated_file(std::vector<T> &);
+    template<typename T> std::istream& operator>>(T&);
+    template<typename T> void          comma_separated_file(std::vector<T>&);
 
-  private:
+private:
     std::ifstream stream;
 };
 
-template <typename T> std::istream &FileHandler::operator>>(T &data) {
+template<typename T> std::istream& FileHandler::operator>>(T& data)
+{
     return stream >> data;
 }
 
-template <typename T>
-void FileHandler::comma_separated_file(std::vector<T> &array) {
+template<typename T> void FileHandler::comma_separated_file(std::vector<T>& array)
+{
     // For files with commas, the >> operator casts commas to integers and
     // generally makes a mess of the whole thing. It's better to have a custom
     // function that handles this case and pushes the relevant data into a
     // vector.
-    T data;
+    T    data;
     char ch;
-    while (stream >> data >> ch && ch == ',') {
+    while(stream >> data >> ch && ch == ',')
+    {
         array.push_back(data);
     }
     // The last value does not have a comma after it, and so it is not read in
@@ -50,5 +54,5 @@ void FileHandler::comma_separated_file(std::vector<T> &array) {
     array.push_back(data);
 }
 
-}
-#endif // FILEHANDLER_HPP
+}  // namespace utils
+#endif  // FILEHANDLER_HPP
