@@ -22,10 +22,11 @@ namespace utils
 class FileHandler
 {
 public:
-    FileHandler(std::string);
+    explicit FileHandler(std::string);
     ~FileHandler();
-    template<typename T> std::istream& operator>>(T&);
-    template<typename T> void          comma_separated_file(std::vector<T>&);
+    template<typename T> std::istream&  operator>>(T&);
+    template<typename T> void           comma_separated_file(std::vector<T>&);
+    template<typename T> std::vector<T> getInputVector();
 
 private:
     std::ifstream stream;
@@ -52,6 +53,17 @@ template<typename T> void FileHandler::comma_separated_file(std::vector<T>& arra
     // by the above loop.
     stream >> data;
     array.push_back(data);
+}
+
+template<typename T> std::vector<T> FileHandler::getInputVector()
+{
+    std::vector<T> outputVector;
+    T              value;
+    while(stream >> value)
+    {
+        outputVector.push_back(value);
+    }
+    return outputVector;
 }
 
 }  // namespace utils
