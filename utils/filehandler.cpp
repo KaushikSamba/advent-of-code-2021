@@ -8,8 +8,7 @@ FileHandler::FileHandler(std::string filepath)
     stream.open(filepath);
     if(!stream)
     {
-        std::cerr << "Unable to open file.\n";
-        exit(1);
+        throw std::runtime_error("Unable to open file.");
     }
 }
 
