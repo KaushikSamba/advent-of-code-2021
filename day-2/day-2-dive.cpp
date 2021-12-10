@@ -80,18 +80,20 @@ int main(int argc, char** argv)
 
     int hPos  = 0;
     int depth = 0;
+    int aim   = 0;
     for(const auto& instr : inputVector)
     {
         switch(instr.command)
         {
         case Command::FORWARD:
             hPos += instr.units;
+            depth += aim * instr.units;
             break;
         case Command::UP:
-            depth -= instr.units;
+            aim -= instr.units;
             break;
         case Command::DOWN:
-            depth += instr.units;
+            aim += instr.units;
             break;
         }
     }
