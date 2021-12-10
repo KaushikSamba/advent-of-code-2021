@@ -78,11 +78,25 @@ int main(int argc, char** argv)
     std::cout << "Filename: " << filename << '\n';
     auto inputVector = utils::FileHandler {filename}.getInputVector<Instruction>();
 
-    for(const auto& value : inputVector)
+    int hPos  = 0;
+    int depth = 0;
+    for(const auto& instr : inputVector)
     {
-        std::cout << value;
+        switch(instr.command)
+        {
+        case Command::FORWARD:
+            hPos += instr.units;
+            break;
+        case Command::UP:
+            depth -= instr.units;
+            break;
+        case Command::DOWN:
+            depth += instr.units;
+            break;
+        }
     }
 
-    // std::cout << "Final answer: " << result << '\n';
+    const auto result = hPos * depth;
+    std::cout << "Final answer: " << result << '\n';
     return 0;
 }
