@@ -1,14 +1,63 @@
 #include "utils/filehandler.hpp"
+enum class Command
+{
+    FORWARD,
+    UP,
+    DOWN
+};
+
+std::ostream& operator<<(std::ostream& stream, Command const& c)
+{
+    std::string command;
+    if(c == Command::FORWARD)
+    {
+        command = "forward";
+    }
+    else if(c == Command::DOWN)
+    {
+        command = "down";
+    }
+    else if(c == Command::UP)
+    {
+        command = "up";
+    }
+    else
+    {
+        throw std::runtime_error("Unknown command received!");
+    }
+    stream << command;
+    return stream;
+}
 
 struct Instruction
 {
-    std::string command;
-    int         units;
+    Command command;
+    int     units;
 };
 
 std::istream& operator>>(std::istream& stream, Instruction& I)
 {
-    stream >> I.command >> I.units;
+    std::string command;
+    stream >> command >> I.units;
+    if(!command.empty())
+    {
+        if(command == "forward")
+        {
+            I.command = Command::FORWARD;
+        }
+        else if(command == "up")
+        {
+            I.command = Command::UP;
+        }
+        else if(command == "down")
+        {
+            I.command = Command::DOWN;
+        }
+        else
+        {
+            throw std::runtime_error("Unknown command (" + command + ") received!");
+        }
+    }
     return stream;
 }
 
