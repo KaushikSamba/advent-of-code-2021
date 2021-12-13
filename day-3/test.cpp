@@ -103,3 +103,8 @@ TEST_F(PowerConsumptionCalcTest, CalcCo2ScrubberRating)
 {
     EXPECT_EQ(calc.calculateCo2ScrubberRating(), 10);
 }
+
+TEST_F(PowerConsumptionCalcTest, CalcLifeSupportRating)
+{
+    EXPECT_EQ(calc.calculateLifeSupportRating(), 230);
+}

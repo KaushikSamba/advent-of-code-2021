@@ -147,6 +147,11 @@ unsigned long PowerConsumptionCalculator::calculateFilteredRating(std::function<
     return convertBinaryToDecimal(finalNumber);
 }
 
+unsigned long PowerConsumptionCalculator::calculateLifeSupportRating() const
+{
+    return (calculateOxygenGeneratorRating() * calculateCo2ScrubberRating());
+}
+
 PowerConsumptionCalculator::Report PowerConsumptionCalculator::filterReport(
     PowerConsumptionCalculator::Report const& input,
     bool                                      value,
