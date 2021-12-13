@@ -1,6 +1,12 @@
 #include "power_consumption_calculator.hpp"
 #include <gtest/gtest.h>
 
+TEST(BinaryConversionTest, Test1)
+{
+    EXPECT_EQ(day_3::PowerConsumptionCalculator::convertBinaryToDecimal({false, true, true, false, true}), 22);
+    EXPECT_EQ(day_3::PowerConsumptionCalculator::convertBinaryToDecimal({true, false, false, true, false}), 9);
+}
+
 class PowerConsumptionCalcTest : public ::testing::Test
 {
 protected:
@@ -71,4 +77,19 @@ TEST_F(PowerConsumptionCalcTest, GetLeastCommonBitTest)
     EXPECT_FALSE(calc.getLeastCommonBit(2));
     EXPECT_FALSE(calc.getLeastCommonBit(3));
     EXPECT_TRUE(calc.getLeastCommonBit(4));
+}
+
+TEST_F(PowerConsumptionCalcTest, CalcGammaRate)
+{
+    EXPECT_EQ(calc.calculateGammaRate(), 22);
+}
+
+TEST_F(PowerConsumptionCalcTest, CalcEpsilonRate)
+{
+    EXPECT_EQ(calc.calculateEpsilonRate(), 9);
+}
+
+TEST_F(PowerConsumptionCalcTest, CalcFinalAnswer)
+{
+    EXPECT_EQ(calc.calculateFinalAnswer(), 198);
 }
