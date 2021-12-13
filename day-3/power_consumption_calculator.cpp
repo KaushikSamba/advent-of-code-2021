@@ -111,7 +111,7 @@ unsigned long PowerConsumptionCalculator::calculateEpsilonRate() const
     return convertBinaryToDecimal(epsilonRate);
 }
 
-unsigned long PowerConsumptionCalculator::calculateFinalAnswer() const
+unsigned long PowerConsumptionCalculator::calculatePowerConsumption() const
 {
     return (calculateGammaRate() * calculateEpsilonRate());
 }
