@@ -24,6 +24,7 @@ public:
     unsigned long calculateOxygenGeneratorRating() const;
     unsigned long calculateCo2ScrubberRating() const;
     unsigned long calculateFilteredRating(std::function<bool(Report, std::size_t)> func) const;
+    unsigned long calculateLifeSupportRating() const;
 
     static unsigned long convertBinaryToDecimal(
         std::vector<bool>
