@@ -15,6 +15,7 @@ target_include_directories( ${TARGET_NAME} PUBLIC
 
 target_link_libraries(  ${TARGET_NAME}
                             utils
+                            power-consumption-calc
                      )
 
 add_executable(
