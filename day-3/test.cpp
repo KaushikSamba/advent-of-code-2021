@@ -91,5 +91,5 @@ TEST_F(PowerConsumptionCalcTest, CalcEpsilonRate)
 
 TEST_F(PowerConsumptionCalcTest, CalcFinalAnswer)
 {
-    EXPECT_EQ(calc.calculateFinalAnswer(), 198);
+    EXPECT_EQ(calc.calculatePowerConsumption(), 198);
 }

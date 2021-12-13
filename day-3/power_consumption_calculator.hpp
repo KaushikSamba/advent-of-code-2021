@@ -19,7 +19,7 @@ public:
     Rate          calculateRate(std::function<bool(std::size_t)> func) const;
     unsigned long calculateGammaRate() const;
     unsigned long calculateEpsilonRate() const;
-    unsigned long calculateFinalAnswer() const;
+    unsigned long calculatePowerConsumption() const;
 
     static unsigned long convertBinaryToDecimal(
         Rate binaryValue);  // Binary value must be arranged in order from least significant digit to most significant.
