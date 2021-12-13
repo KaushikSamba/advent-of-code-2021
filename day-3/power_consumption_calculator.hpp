@@ -22,6 +22,8 @@ public:
     unsigned long calculateEpsilonRate() const;
     unsigned long calculatePowerConsumption() const;
     unsigned long calculateOxygenGeneratorRating() const;
+    unsigned long calculateCo2ScrubberRating() const;
+    unsigned long calculateFilteredRating(std::function<bool(Report, std::size_t)> func) const;
 
     static unsigned long convertBinaryToDecimal(
         std::vector<bool>
