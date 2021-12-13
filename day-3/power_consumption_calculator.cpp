@@ -56,11 +56,12 @@ PowerConsumptionCalculator::Rate PowerConsumptionCalculator::calculateRate(std::
     return rate;
 }
 
-std::tuple<std::size_t, std::size_t> PowerConsumptionCalculator::getBitCount(std::size_t bit_position) const
+std::tuple<std::size_t, std::size_t> PowerConsumptionCalculator::getBitCount(Report const& report,
+                                                                             std::size_t   bit_position)
 {
     std::size_t zero_count = 0;
     std::size_t one_count  = 0;
-    for(const auto& line : m_report)
+    for(const auto& line : report)
     {
         if(line.at(bit_position))
         {
@@ -74,7 +75,7 @@ std::tuple<std::size_t, std::size_t> PowerConsumptionCalculator::getBitCount(std
     return {zero_count, one_count};
 }
 
-unsigned long PowerConsumptionCalculator::convertBinaryToDecimal(Rate binaryValue)
+unsigned long PowerConsumptionCalculator::convertBinaryToDecimal(std::vector<bool> binaryValue)
 {
     unsigned long result = 0;
     for(std::size_t i = 0; i < binaryValue.size(); i++)
@@ -87,27 +88,27 @@ unsigned long PowerConsumptionCalculator::convertBinaryToDecimal(Rate binaryValu
     return result;
 }
 
-bool PowerConsumptionCalculator::getMostCommonBit(std::size_t bit_position) const
+bool PowerConsumptionCalculator::getMostCommonBit(Report const& report, std::size_t bit_position)
 {
-    auto [zero_count, one_count] = getBitCount(bit_position);
-    return (one_count > zero_count);
+    auto [zero_count, one_count] = getBitCount(report, bit_position);
+    return (one_count >= zero_count);
 }
 
-bool PowerConsumptionCalculator::getLeastCommonBit(std::size_t bit_position) const
+bool PowerConsumptionCalculator::getLeastCommonBit(Report const& report, std::size_t bit_position)
 {
-    auto [zero_count, one_count] = getBitCount(bit_position);
+    auto [zero_count, one_count] = getBitCount(report, bit_position);
     return (one_count < zero_count);
 }
 
 unsigned long PowerConsumptionCalculator::calculateGammaRate() const
 {
-    Rate gammaRate = calculateRate([this](std::size_t i) { return getMostCommonBit(i); });
+    Rate gammaRate = calculateRate([this](std::size_t i) { return getMostCommonBit(m_report, i); });
     return convertBinaryToDecimal(gammaRate);
 }
 
 unsigned long PowerConsumptionCalculator::calculateEpsilonRate() const
 {
-    Rate epsilonRate = calculateRate([this](std::size_t i) { return getLeastCommonBit(i); });
+    Rate epsilonRate = calculateRate([this](std::size_t i) { return getLeastCommonBit(m_report, i); });
     return convertBinaryToDecimal(epsilonRate);
 }
 
