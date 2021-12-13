@@ -98,3 +98,8 @@ TEST_F(PowerConsumptionCalcTest, CalcOxygenGeneratorRating)
 {
     EXPECT_EQ(calc.calculateOxygenGeneratorRating(), 23);
 }
+
+TEST_F(PowerConsumptionCalcTest, CalcCo2ScrubberRating)
+{
+    EXPECT_EQ(calc.calculateCo2ScrubberRating(), 10);
+}

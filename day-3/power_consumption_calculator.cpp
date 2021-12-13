@@ -117,14 +117,25 @@ unsigned long PowerConsumptionCalculator::calculatePowerConsumption() const
     return (calculateGammaRate() * calculateEpsilonRate());
 }
 
+
+
 unsigned long PowerConsumptionCalculator::calculateOxygenGeneratorRating() const
+{
+    return calculateFilteredRating(&PowerConsumptionCalculator::getMostCommonBit);
+}
+
+unsigned long PowerConsumptionCalculator::calculateCo2ScrubberRating() const
+{
+    return calculateFilteredRating(&PowerConsumptionCalculator::getLeastCommonBit);
+}
+
+unsigned long PowerConsumptionCalculator::calculateFilteredRating(std::function<bool(Report, std::size_t)> func) const
 {
     Report selectedNumbers = getFullReport();
     for(std::size_t i = 0; (i < NUM_BITS) && (selectedNumbers.size() != 1); i++)
     {
-        auto mostCommonBit = getMostCommonBit(selectedNumbers, i);
-        std::cout << "Criterion for bit " << i << " : " << mostCommonBit << '\n';
-        selectedNumbers = filterReport(selectedNumbers, mostCommonBit, i);
+        auto matchBit   = func(selectedNumbers, i);
+        selectedNumbers = filterReport(selectedNumbers, matchBit, i);
     }
     if(selectedNumbers.size() != 1)
     {
@@ -132,12 +143,6 @@ unsigned long PowerConsumptionCalculator::calculateOxygenGeneratorRating() const
             "Something horrible has happened! Went through all the bits and found more than one candidate match!");
     }
     auto finalNumber = selectedNumbers.at(0);
-    std::cout << "Final number is : \n";
-    for(const auto& val : finalNumber)
-    {
-        std::cout << val << ' ';
-    }
-    std::cout << std::endl;
     std::reverse(finalNumber.begin(), finalNumber.end());
     return convertBinaryToDecimal(finalNumber);
 }
