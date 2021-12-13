@@ -9,12 +9,13 @@ class PowerConsumptionCalculator
 {
 public:
     using ReportLine = std::vector<bool>;
+    using Report     = std::vector<ReportLine>;
     using Rate       = std::vector<bool>;
     PowerConsumptionCalculator();
     PowerConsumptionCalculator(std::vector<std::string> const& input);
-    bool                    getMostCommonBit(std::size_t bit_position) const;
-    bool                    getLeastCommonBit(std::size_t bit_position) const;
-    std::vector<ReportLine> getFullReport() const;
+    static bool getMostCommonBit(Report const& report, std::size_t bit_position);
+    static bool getLeastCommonBit(Report const& report, std::size_t bit_position);
+    Report      getFullReport() const;
 
     Rate          calculateRate(std::function<bool(std::size_t)> func) const;
     unsigned long calculateGammaRate() const;
@@ -22,11 +23,14 @@ public:
     unsigned long calculatePowerConsumption() const;
 
     static unsigned long convertBinaryToDecimal(
+        std::vector<bool>
+            binaryValue);  // Binary value must be arranged in order from least significant digit to most significant.
+
         Rate binaryValue);  // Binary value must be arranged in order from least significant digit to most significant.
 
 private:
-    std::tuple<std::size_t, std::size_t> getBitCount(std::size_t bit_position) const;
-    std::size_t                          NUM_BITS;
-    std::vector<ReportLine>              m_report;
+    static std::tuple<std::size_t, std::size_t> getBitCount(Report const& report, std::size_t bit_position);
+    std::size_t                                 NUM_BITS;
+    Report                                      m_report;
 };
 }  // namespace day_3
