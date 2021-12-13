@@ -116,4 +116,46 @@ unsigned long PowerConsumptionCalculator::calculatePowerConsumption() const
 {
     return (calculateGammaRate() * calculateEpsilonRate());
 }
+
+unsigned long PowerConsumptionCalculator::calculateOxygenGeneratorRating() const
+{
+    Report selectedNumbers = getFullReport();
+    for(std::size_t i = 0; (i < NUM_BITS) && (selectedNumbers.size() != 1); i++)
+    {
+        auto mostCommonBit = getMostCommonBit(selectedNumbers, i);
+        std::cout << "Criterion for bit " << i << " : " << mostCommonBit << '\n';
+        selectedNumbers = filterReport(selectedNumbers, mostCommonBit, i);
+    }
+    if(selectedNumbers.size() != 1)
+    {
+        throw std::runtime_error(
+            "Something horrible has happened! Went through all the bits and found more than one candidate match!");
+    }
+    auto finalNumber = selectedNumbers.at(0);
+    std::cout << "Final number is : \n";
+    for(const auto& val : finalNumber)
+    {
+        std::cout << val << ' ';
+    }
+    std::cout << std::endl;
+    std::reverse(finalNumber.begin(), finalNumber.end());
+    return convertBinaryToDecimal(finalNumber);
+}
+
+PowerConsumptionCalculator::Report PowerConsumptionCalculator::filterReport(
+    PowerConsumptionCalculator::Report const& input,
+    bool                                      value,
+    std::size_t                               bit_position) const
+{
+    Report filteredReport;
+    for(const auto& line : input)
+    {
+        if(line.at(bit_position) == value)
+        {
+            filteredReport.push_back(line);
+        }
+    }
+    return filteredReport;
+}
+
 }  // namespace day_3

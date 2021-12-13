@@ -21,12 +21,13 @@ public:
     unsigned long calculateGammaRate() const;
     unsigned long calculateEpsilonRate() const;
     unsigned long calculatePowerConsumption() const;
+    unsigned long calculateOxygenGeneratorRating() const;
 
     static unsigned long convertBinaryToDecimal(
         std::vector<bool>
             binaryValue);  // Binary value must be arranged in order from least significant digit to most significant.
 
-        Rate binaryValue);  // Binary value must be arranged in order from least significant digit to most significant.
+    Report filterReport(Report const& input, bool value, std::size_t bit_position) const;
 
 private:
     static std::tuple<std::size_t, std::size_t> getBitCount(Report const& report, std::size_t bit_position);

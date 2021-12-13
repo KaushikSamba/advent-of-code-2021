@@ -63,20 +63,20 @@ TEST_F(PowerConsumptionCalcTest, InputWorks)
 
 TEST_F(PowerConsumptionCalcTest, GetMostCommonBitTest)
 {
-    EXPECT_TRUE(calc.getMostCommonBit(0));
-    EXPECT_FALSE(calc.getMostCommonBit(1));
-    EXPECT_TRUE(calc.getMostCommonBit(2));
-    EXPECT_TRUE(calc.getMostCommonBit(3));
-    EXPECT_FALSE(calc.getMostCommonBit(4));
+    EXPECT_TRUE(calc.getMostCommonBit(calc.getFullReport(), 0));
+    EXPECT_FALSE(calc.getMostCommonBit(calc.getFullReport(), 1));
+    EXPECT_TRUE(calc.getMostCommonBit(calc.getFullReport(), 2));
+    EXPECT_TRUE(calc.getMostCommonBit(calc.getFullReport(), 3));
+    EXPECT_FALSE(calc.getMostCommonBit(calc.getFullReport(), 4));
 }
 
 TEST_F(PowerConsumptionCalcTest, GetLeastCommonBitTest)
 {
-    EXPECT_FALSE(calc.getLeastCommonBit(0));
-    EXPECT_TRUE(calc.getLeastCommonBit(1));
-    EXPECT_FALSE(calc.getLeastCommonBit(2));
-    EXPECT_FALSE(calc.getLeastCommonBit(3));
-    EXPECT_TRUE(calc.getLeastCommonBit(4));
+    EXPECT_FALSE(calc.getLeastCommonBit(calc.getFullReport(), 0));
+    EXPECT_TRUE(calc.getLeastCommonBit(calc.getFullReport(), 1));
+    EXPECT_FALSE(calc.getLeastCommonBit(calc.getFullReport(), 2));
+    EXPECT_FALSE(calc.getLeastCommonBit(calc.getFullReport(), 3));
+    EXPECT_TRUE(calc.getLeastCommonBit(calc.getFullReport(), 4));
 }
 
 TEST_F(PowerConsumptionCalcTest, CalcGammaRate)
@@ -92,4 +92,9 @@ TEST_F(PowerConsumptionCalcTest, CalcEpsilonRate)
 TEST_F(PowerConsumptionCalcTest, CalcFinalAnswer)
 {
     EXPECT_EQ(calc.calculatePowerConsumption(), 198);
+}
+
+TEST_F(PowerConsumptionCalcTest, CalcOxygenGeneratorRating)
+{
+    EXPECT_EQ(calc.calculateOxygenGeneratorRating(), 23);
 }
