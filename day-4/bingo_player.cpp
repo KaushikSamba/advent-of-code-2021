@@ -72,19 +72,19 @@ void BingoPlayer::play()
         for(auto& board : m_boards)
         {
             i++;
-            if(findAndMarkNumberOnBoard(board, num))
+            if(helpers::findAndMarkNumberOnBoard(board, num))
             {
                 // This board has scored a bingo!
                 if(m_part_1_answer == 0)
                 {
-                    m_part_1_answer = calculateAnswer(board, num);
+                    m_part_1_answer = helpers::calculateAnswer(board, num);
                 }
                 board.completed = true;
                 // Check if this is the last board to hit bingo
                 if(checkAllBoardsCompleted())
                 {
                     // This is the last board to score bingo.
-                    m_part_2_answer = calculateAnswer(board, num);
+                    m_part_2_answer = helpers::calculateAnswer(board, num);
                     return;
                 }
             }
@@ -92,9 +92,9 @@ void BingoPlayer::play()
     }
 }
 
-uint BingoPlayer::calculateAnswer(BOARD const& board, uint lastNumber)
+uint helpers::calculateAnswer(BOARD const& board, uint lastNumber)
 {
-    return (getSumOfUnmarkedNumbers(board) * lastNumber);
+    return (helpers::getSumOfUnmarkedNumbers(board) * lastNumber);
 }
 
 uint BingoPlayer::getPart1Answer() const
@@ -107,7 +107,7 @@ uint BingoPlayer::getPart2Answer() const
     return m_part_2_answer;
 }
 
-uint BingoPlayer::getSumOfUnmarkedNumbers(BOARD const& board)
+uint helpers::getSumOfUnmarkedNumbers(BOARD const& board)
 {
     uint sum  = 0;
     auto temp = board.begin();
@@ -124,7 +124,7 @@ uint BingoPlayer::getSumOfUnmarkedNumbers(BOARD const& board)
     return sum;
 }
 
-bool BingoPlayer::findAndMarkNumberOnBoard(BOARD& board, uint number)
+bool helpers::findAndMarkNumberOnBoard(BOARD& board, uint number)
 {
     bool        success;
     std::size_t row, col;
@@ -137,7 +137,7 @@ bool BingoPlayer::findAndMarkNumberOnBoard(BOARD& board, uint number)
     return false;
 }
 
-void BingoPlayer::markNumberOnBoard(BOARD& board, std::size_t row, std::size_t col)
+void helpers::markNumberOnBoard(BOARD& board, std::size_t row, std::size_t col)
 {
     board.at(row).at(col).marked = true;
 }
@@ -170,7 +170,7 @@ void BingoPlayer::createInternalBoardRepresentation()
     }
 }
 
-std::tuple<bool, std::size_t, std::size_t> BingoPlayer::findNumberInBoard(BOARD& board, uint number)
+std::tuple<bool, std::size_t, std::size_t> helpers::findNumberInBoard(BOARD& board, uint number)
 {
     for(std::size_t i = 0; i < BOARD_SIZE; i++)
     {
@@ -185,7 +185,7 @@ std::tuple<bool, std::size_t, std::size_t> BingoPlayer::findNumberInBoard(BOARD&
     return {false, 0, 0};
 }
 
-bool BingoPlayer::checkBingoRow(BOARD& board, std::size_t row)
+bool helpers::checkBingoRow(BOARD& board, std::size_t row)
 {
     for(const auto& elem : board.at(row))
     {
@@ -197,7 +197,7 @@ bool BingoPlayer::checkBingoRow(BOARD& board, std::size_t row)
     return true;
 }
 
-bool BingoPlayer::checkBingoColumn(BOARD& board, std::size_t col)
+bool helpers::checkBingoColumn(BOARD& board, std::size_t col)
 {
     for(std::size_t row = 0; row < BOARD_SIZE; row++)
     {

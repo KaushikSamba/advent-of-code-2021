@@ -2,8 +2,6 @@
 #include <queue>
 #include <vector>
 
-// Things that need to be fixed:
-// -
 namespace solution
 {
 
@@ -38,6 +36,16 @@ struct BOARD
     std::array<BOARD_ROW, BOARD_SIZE> board;
 };
 
+namespace helpers
+{
+uint calculateAnswer(BOARD const& board, uint lastNumber);
+uint getSumOfUnmarkedNumbers(BOARD const& board);
+bool findAndMarkNumberOnBoard(BOARD& board, uint number);  // True if bingo, false otherwise.
+void markNumberOnBoard(BOARD& board, std::size_t row, std::size_t col);
+std::tuple<bool, std::size_t, std::size_t> findNumberInBoard(BOARD& board, uint number);
+bool                                       checkBingoRow(BOARD& board, std::size_t row);
+bool                                       checkBingoColumn(BOARD& board, std::size_t col);
+}  // namespace helpers
 
 class BingoPlayer
 {
@@ -49,25 +57,15 @@ public:
     uint getPart1Answer() const;
     uint getPart2Answer() const;
 
+    // Stuff that is public only for testing. BAD practice.
     std::vector<uint>                           getNumberList() const;
     std::vector<std::vector<std::vector<uint>>> getParsedBoards() const;
+    uint                                        getNextNumber();
+    std::vector<BOARD>                          m_boards;
 
-    uint getNextNumber();
-
-    static uint calculateAnswer(BOARD const& board, uint lastNumber);
-
-    static uint getSumOfUnmarkedNumbers(BOARD const& board);
-    static bool findAndMarkNumberOnBoard(BOARD& board, uint number);  // True if bingo, false otherwise.
-    static void markNumberOnBoard(BOARD& board, std::size_t row, std::size_t col);
-    static std::tuple<bool, std::size_t, std::size_t> findNumberInBoard(BOARD& board, uint number);
-    static bool                                       checkBingoRow(BOARD& board, std::size_t row);
-    static bool                                       checkBingoColumn(BOARD& board, std::size_t col);
-
-    std::vector<BOARD> m_boards;
-
-    bool checkAllBoardsCompleted() const;  // True if all boards are completed, false otherwise.
 
 private:
+    bool checkAllBoardsCompleted() const;  // True if all boards are completed, false otherwise.
     void createInternalBoardRepresentation();
 
     std::vector<uint>                           m_number_list;

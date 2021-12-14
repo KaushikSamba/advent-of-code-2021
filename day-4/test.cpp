@@ -73,68 +73,35 @@ TEST_F(BingoPlayerTest, PopNumbers)
     }
 }
 
-TEST_F(BingoPlayerTest, FindNumberInBoard)
-{
-    // for(auto& board : solver.m_boards)
-    // {
-    //     EXPECT_EQ(solver.findNumberInBoard(board, 7), );
-    //     EXPECT_NE(solver.findNumberInBoard(board, 4), nullptr);
-    //     EXPECT_NE(solver.findNumberInBoard(board, 5), nullptr);
-    //     EXPECT_NE(solver.findNumberInBoard(board, 9), nullptr);
-    //     EXPECT_NE(solver.findNumberInBoard(board, 11), nullptr);
-    //     EXPECT_EQ(solver.findNumberInBoard(board, 27), nullptr);
-    // }
-}
-
 TEST_F(BingoPlayerTest, MarkNumberInBoard)
 {
-    // for(auto& board : solver.m_boards)
-    // {
-    //     EXPECT_TRUE(solver.markNumberOnBoard(board, 7));
-    //     EXPECT_TRUE(solver.markNumberOnBoard(board, 4));
-    //     EXPECT_TRUE(solver.markNumberOnBoard(board, 5));
-    //     EXPECT_TRUE(solver.markNumberOnBoard(board, 9));
-    //     EXPECT_TRUE(solver.markNumberOnBoard(board, 11));
-    //     EXPECT_FALSE(solver.markNumberOnBoard(board, 27));
-    // }
-
-    {
-        auto& board = solver.m_boards.at(0);
-        solver.findAndMarkNumberOnBoard(board, 7);
-        EXPECT_TRUE(board.at(2).at(4).marked);
-        solver.findAndMarkNumberOnBoard(board, 4);
-        EXPECT_TRUE(board.at(1).at(3).marked);
-        solver.findAndMarkNumberOnBoard(board, 5);
-        EXPECT_TRUE(board.at(3).at(4).marked);
-    }
-
-
-    // EXPECT_TRUE(solver.m_boards.at(1).at(2).at(2).marked);  // 7
-    // EXPECT_TRUE(solver.m_boards.at(2).at(4).at(4).marked);  // 7
-    // EXPECT_TRUE(solver.m_boards.at(1).at(3).at(4).marked);  // 4
-    // EXPECT_TRUE(solver.m_boards.at(2).at(0).at(4).marked);  // 4
-    // EXPECT_TRUE(solver.m_boards.at(1).at(1).at(4).marked);  // 5
-    // EXPECT_TRUE(solver.m_boards.at(2).at(3).at(4).marked);  // 5
+    auto& board = solver.m_boards.at(0);
+    solution::helpers::findAndMarkNumberOnBoard(board, 7);
+    EXPECT_TRUE(board.at(2).at(4).marked);
+    solution::helpers::findAndMarkNumberOnBoard(board, 4);
+    EXPECT_TRUE(board.at(1).at(3).marked);
+    solution::helpers::findAndMarkNumberOnBoard(board, 5);
+    EXPECT_TRUE(board.at(3).at(4).marked);
 }
 
 TEST_F(BingoPlayerTest, CheckBingoRow)
 {
     auto& board = solver.m_boards.at(2);
-    EXPECT_FALSE(solver.findAndMarkNumberOnBoard(board, 14));
-    EXPECT_FALSE(solver.findAndMarkNumberOnBoard(board, 21));
-    EXPECT_FALSE(solver.findAndMarkNumberOnBoard(board, 17));
-    EXPECT_FALSE(solver.findAndMarkNumberOnBoard(board, 24));
-    EXPECT_TRUE(solver.findAndMarkNumberOnBoard(board, 4));
+    EXPECT_FALSE(solution::helpers::findAndMarkNumberOnBoard(board, 14));
+    EXPECT_FALSE(solution::helpers::findAndMarkNumberOnBoard(board, 21));
+    EXPECT_FALSE(solution::helpers::findAndMarkNumberOnBoard(board, 17));
+    EXPECT_FALSE(solution::helpers::findAndMarkNumberOnBoard(board, 24));
+    EXPECT_TRUE(solution::helpers::findAndMarkNumberOnBoard(board, 4));
 }
 
 TEST_F(BingoPlayerTest, CheckBingoCol)
 {
     auto& board = solver.m_boards.at(2);
-    EXPECT_FALSE(solver.findAndMarkNumberOnBoard(board, 14));
-    EXPECT_FALSE(solver.findAndMarkNumberOnBoard(board, 10));
-    EXPECT_FALSE(solver.findAndMarkNumberOnBoard(board, 18));
-    EXPECT_FALSE(solver.findAndMarkNumberOnBoard(board, 22));
-    EXPECT_TRUE(solver.findAndMarkNumberOnBoard(board, 2));
+    EXPECT_FALSE(solution::helpers::findAndMarkNumberOnBoard(board, 14));
+    EXPECT_FALSE(solution::helpers::findAndMarkNumberOnBoard(board, 10));
+    EXPECT_FALSE(solution::helpers::findAndMarkNumberOnBoard(board, 18));
+    EXPECT_FALSE(solution::helpers::findAndMarkNumberOnBoard(board, 22));
+    EXPECT_TRUE(solution::helpers::findAndMarkNumberOnBoard(board, 2));
 }
 
 TEST_F(BingoPlayerTest, PlayBingo)
