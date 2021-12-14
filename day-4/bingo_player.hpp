@@ -47,13 +47,14 @@ public:
     void parseInputFile(std::istream& stream);
     void play();
     uint getPart1Answer() const;
+    uint getPart2Answer() const;
 
     std::vector<uint>                           getNumberList() const;
     std::vector<std::vector<std::vector<uint>>> getParsedBoards() const;
 
     uint getNextNumber();
 
-    uint calculatePart1Answer(BOARD const& board, uint lastNumber);
+    static uint calculateAnswer(BOARD const& board, uint lastNumber);
 
     static uint getSumOfUnmarkedNumbers(BOARD const& board);
     static bool findAndMarkNumberOnBoard(BOARD& board, uint number);  // True if bingo, false otherwise.
@@ -64,6 +65,8 @@ public:
 
     std::vector<BOARD> m_boards;
 
+    bool checkAllBoardsCompleted() const;  // True if all boards are completed, false otherwise.
+
 private:
     void createInternalBoardRepresentation();
 
@@ -71,5 +74,6 @@ private:
     std::vector<std::vector<std::vector<uint>>> m_parsed_boards;
     std::queue<uint>                            m_number_queue;
     uint                                        m_part_1_answer;
+    uint                                        m_part_2_answer;
 };
 }  // namespace solution

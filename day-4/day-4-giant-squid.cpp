@@ -20,8 +20,8 @@ int main(int argc, char** argv)
     }
 
     solver.play();
-    auto result = solver.getPart1Answer();
 
-    std::cout << "Part 1 Answer = " << result << '\n';
+    std::cout << "Part 1 Answer = " << solver.getPart1Answer() << '\n';
+    std::cout << "Part 2 Answer = " << solver.getPart2Answer() << '\n';
     return 0;
 }
