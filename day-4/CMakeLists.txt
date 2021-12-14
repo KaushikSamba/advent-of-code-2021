@@ -6,6 +6,14 @@ add_library(${SOLUTION_LIBRARY_NAME}
                 bingo_player.cpp            
 )
 
+target_include_directories( ${SOLUTION_LIBRARY_NAME} PUBLIC
+                            ${CMAKE_SOURCE_DIR}
+                            )
+
+target_link_libraries(  ${SOLUTION_LIBRARY_NAME}
+                            utils
+                     )
+
 add_executable( ${TARGET_NAME}
                     day-4-giant-squid.cpp
                 )
@@ -15,7 +23,6 @@ target_include_directories( ${TARGET_NAME} PUBLIC
                             )
 
 target_link_libraries(  ${TARGET_NAME}
-                            utils
                             ${SOLUTION_LIBRARY_NAME}
                      )
 
@@ -27,7 +34,6 @@ target_link_libraries(
     ${TEST_TARGET_NAME}
     gtest_main
     ${SOLUTION_LIBRARY_NAME}
-    utils
 )
 target_include_directories( ${TEST_TARGET_NAME} PUBLIC
                                 ${CMAKE_SOURCE_DIR}
