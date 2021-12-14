@@ -57,7 +57,7 @@ uint BingoPlayer::getNextNumber()
     return number;
 }
 
-uint BingoPlayer::play()
+void BingoPlayer::play()
 {
     while(true)
     {
@@ -69,7 +69,8 @@ uint BingoPlayer::play()
             if(findAndMarkNumberOnBoard(board, num))
             {
                 // This board has scored a bingo!
-                return calculatePart1Answer(board, num);
+                m_part_1_answer = calculatePart1Answer(board, num);
+                return;
             }
         }
     }
@@ -80,9 +81,15 @@ uint BingoPlayer::calculatePart1Answer(BOARD const& board, uint lastNumber)
     return (getSumOfUnmarkedNumbers(board) * lastNumber);
 }
 
+uint BingoPlayer::getPart1Answer() const
+{
+    return m_part_1_answer;
+}
+
 uint BingoPlayer::getSumOfUnmarkedNumbers(BOARD const& board)
 {
-    uint sum = 0;
+    uint sum  = 0;
+    auto temp = board.begin();
     for(const auto& row : board)
     {
         for(const auto& elem : row)
