@@ -2,6 +2,8 @@
 #include <queue>
 #include <vector>
 
+// Things that need to be fixed:
+// -
 namespace solution
 {
 
@@ -41,8 +43,6 @@ class BingoPlayer
 {
 public:
     BingoPlayer();
-
-    void setSelectedNumbers(std::vector<uint> const& selectedNumbers);
 
     void parseInputFile(std::istream& stream);
     void play();
