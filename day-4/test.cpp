@@ -32,13 +32,13 @@ protected:
 
         solver.parseInputFile(ss);
     }
-    solution::BingoPlayer solver;
+    solution::BingoPlayer     solver;
+    std::vector<unsigned int> expectedListOfNumbers {7,  4, 9,  5,  11, 17, 23, 2,  0, 14, 21, 24, 10, 16,
+                                                     13, 6, 15, 25, 12, 22, 18, 20, 8, 19, 3,  26, 1};
 };
 
 TEST_F(BingoPlayerTest, InputWorks)
 {
-    std::vector<unsigned int> expectedListOfNumbers {7,  4, 9,  5,  11, 17, 23, 2,  0, 14, 21, 24, 10, 16,
-                                                     13, 6, 15, 25, 12, 22, 18, 20, 8, 19, 3,  26, 1};
     EXPECT_EQ(solver.getNumberList(), expectedListOfNumbers);
 
     std::vector<std::vector<std::vector<unsigned int>>> expectedParsedBoards {{
@@ -63,4 +63,81 @@ TEST_F(BingoPlayerTest, InputWorks)
                                                                                   {2, 0, 12, 3, 7},
                                                                               }};
     EXPECT_EQ(solver.getParsedBoards(), expectedParsedBoards);
+}
+
+TEST_F(BingoPlayerTest, PopNumbers)
+{
+    for(const auto& num : expectedListOfNumbers)
+    {
+        EXPECT_EQ(solver.getNextNumber(), num);
+    }
+}
+
+TEST_F(BingoPlayerTest, FindNumberInBoard)
+{
+    // for(auto& board : solver.m_boards)
+    // {
+    //     EXPECT_EQ(solver.findNumberInBoard(board, 7), );
+    //     EXPECT_NE(solver.findNumberInBoard(board, 4), nullptr);
+    //     EXPECT_NE(solver.findNumberInBoard(board, 5), nullptr);
+    //     EXPECT_NE(solver.findNumberInBoard(board, 9), nullptr);
+    //     EXPECT_NE(solver.findNumberInBoard(board, 11), nullptr);
+    //     EXPECT_EQ(solver.findNumberInBoard(board, 27), nullptr);
+    // }
+}
+
+TEST_F(BingoPlayerTest, MarkNumberInBoard)
+{
+    // for(auto& board : solver.m_boards)
+    // {
+    //     EXPECT_TRUE(solver.markNumberOnBoard(board, 7));
+    //     EXPECT_TRUE(solver.markNumberOnBoard(board, 4));
+    //     EXPECT_TRUE(solver.markNumberOnBoard(board, 5));
+    //     EXPECT_TRUE(solver.markNumberOnBoard(board, 9));
+    //     EXPECT_TRUE(solver.markNumberOnBoard(board, 11));
+    //     EXPECT_FALSE(solver.markNumberOnBoard(board, 27));
+    // }
+
+    {
+        auto& board = solver.m_boards.at(0);
+        solver.findAndMarkNumberOnBoard(board, 7);
+        EXPECT_TRUE(board.at(2).at(4).marked);
+        solver.findAndMarkNumberOnBoard(board, 4);
+        EXPECT_TRUE(board.at(1).at(3).marked);
+        solver.findAndMarkNumberOnBoard(board, 5);
+        EXPECT_TRUE(board.at(3).at(4).marked);
+    }
+
+
+    // EXPECT_TRUE(solver.m_boards.at(1).at(2).at(2).marked);  // 7
+    // EXPECT_TRUE(solver.m_boards.at(2).at(4).at(4).marked);  // 7
+    // EXPECT_TRUE(solver.m_boards.at(1).at(3).at(4).marked);  // 4
+    // EXPECT_TRUE(solver.m_boards.at(2).at(0).at(4).marked);  // 4
+    // EXPECT_TRUE(solver.m_boards.at(1).at(1).at(4).marked);  // 5
+    // EXPECT_TRUE(solver.m_boards.at(2).at(3).at(4).marked);  // 5
+}
+
+TEST_F(BingoPlayerTest, CheckBingoRow)
+{
+    auto& board = solver.m_boards.at(2);
+    EXPECT_FALSE(solver.findAndMarkNumberOnBoard(board, 14));
+    EXPECT_FALSE(solver.findAndMarkNumberOnBoard(board, 21));
+    EXPECT_FALSE(solver.findAndMarkNumberOnBoard(board, 17));
+    EXPECT_FALSE(solver.findAndMarkNumberOnBoard(board, 24));
+    EXPECT_TRUE(solver.findAndMarkNumberOnBoard(board, 4));
+}
+
+TEST_F(BingoPlayerTest, CheckBingoCol)
+{
+    auto& board = solver.m_boards.at(2);
+    EXPECT_FALSE(solver.findAndMarkNumberOnBoard(board, 14));
+    EXPECT_FALSE(solver.findAndMarkNumberOnBoard(board, 10));
+    EXPECT_FALSE(solver.findAndMarkNumberOnBoard(board, 18));
+    EXPECT_FALSE(solver.findAndMarkNumberOnBoard(board, 22));
+    EXPECT_TRUE(solver.findAndMarkNumberOnBoard(board, 2));
+}
+
+TEST_F(BingoPlayerTest, PlayBingo)
+{
+    EXPECT_EQ(solver.play(), 4512);
 }

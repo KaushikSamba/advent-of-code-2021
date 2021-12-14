@@ -3,12 +3,24 @@
 
 int main(int argc, char** argv)
 {
-    std::cout << "Filename: " << argv[1] << '\n';
-    auto inputVector = utils::FileHandler {argv[1]}.getInputVector<std::string>();
+    if(!argv[1])
+    {
+        throw std::runtime_error("No filename supplied!");
+    }
+
+    std::string filename = argv[1];
+    std::cout << "Filename: " << filename << '\n';
 
     solution::BingoPlayer solver;
 
-    // std::cout << "Power consumption: " << solver.calculatePowerConsumption() << '\n'
-    //   << "Life support rating: " << solver.calculateLifeSupportRating() << '\n';
+    // Limit scope of file stream
+    {
+        std::ifstream stream {filename};
+        solver.parseInputFile(stream);
+    }
+
+    auto result = solver.play();
+
+    std::cout << "Part 1 Answer = " << result << '\n';
     return 0;
 }
