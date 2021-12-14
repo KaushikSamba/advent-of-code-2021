@@ -13,7 +13,29 @@ struct BoardElement
 
 static constexpr std::size_t BOARD_SIZE = 5;
 using BOARD_ROW                         = std::array<BoardElement, BOARD_SIZE>;
-using BOARD                             = std::array<BOARD_ROW, BOARD_SIZE>;
+// using BOARD                             = std::array<BOARD_ROW, BOARD_SIZE>;
+
+struct BOARD
+{
+    BOARD_ROW& at(std::size_t n)
+    {
+        return board.at(n);
+    }
+
+    const BOARD_ROW* begin() const
+    {
+        return board.begin();
+    }
+
+    const BOARD_ROW* end() const
+    {
+        return board.end();
+    }
+
+    bool                              completed = false;
+    std::array<BOARD_ROW, BOARD_SIZE> board;
+};
+
 
 class BingoPlayer
 {
@@ -23,7 +45,8 @@ public:
     void setSelectedNumbers(std::vector<uint> const& selectedNumbers);
 
     void parseInputFile(std::istream& stream);
-    uint play();
+    void play();
+    uint getPart1Answer() const;
 
     std::vector<uint>                           getNumberList() const;
     std::vector<std::vector<std::vector<uint>>> getParsedBoards() const;
@@ -47,5 +70,6 @@ private:
     std::vector<uint>                           m_number_list;
     std::vector<std::vector<std::vector<uint>>> m_parsed_boards;
     std::queue<uint>                            m_number_queue;
+    uint                                        m_part_1_answer;
 };
 }  // namespace solution

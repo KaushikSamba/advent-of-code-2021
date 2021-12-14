@@ -139,5 +139,6 @@ TEST_F(BingoPlayerTest, CheckBingoCol)
 
 TEST_F(BingoPlayerTest, PlayBingo)
 {
-    EXPECT_EQ(solver.play(), 4512);
+    solver.play();
+    EXPECT_EQ(solver.getPart1Answer(), 4512);
 }

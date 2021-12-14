@@ -19,7 +19,8 @@ int main(int argc, char** argv)
         solver.parseInputFile(stream);
     }
 
-    auto result = solver.play();
+    solver.play();
+    auto result = solver.getPart1Answer();
 
     std::cout << "Part 1 Answer = " << result << '\n';
     return 0;
