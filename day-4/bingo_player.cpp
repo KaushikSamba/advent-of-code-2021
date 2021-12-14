@@ -6,7 +6,9 @@
 
 namespace solution
 {
-BingoPlayer::BingoPlayer() = default;
+BingoPlayer::BingoPlayer()
+    : m_part_1_answer(0)
+{}
 
 void BingoPlayer::parseInputFile(std::istream& stream)
 {
@@ -52,6 +54,10 @@ std::vector<std::vector<std::vector<uint>>> BingoPlayer::getParsedBoards() const
 
 uint BingoPlayer::getNextNumber()
 {
+    if(m_number_queue.empty())
+    {
+        throw std::runtime_error("Queue is empty!");
+    }
     auto number = m_number_queue.front();
     m_number_queue.pop();
     return number;
@@ -69,14 +75,24 @@ void BingoPlayer::play()
             if(findAndMarkNumberOnBoard(board, num))
             {
                 // This board has scored a bingo!
-                m_part_1_answer = calculatePart1Answer(board, num);
-                return;
+                if(m_part_1_answer == 0)
+                {
+                    m_part_1_answer = calculateAnswer(board, num);
+                }
+                board.completed = true;
+                // Check if this is the last board to hit bingo
+                if(checkAllBoardsCompleted())
+                {
+                    // This is the last board to score bingo.
+                    m_part_2_answer = calculateAnswer(board, num);
+                    return;
+                }
             }
         }
     }
 }
 
-uint BingoPlayer::calculatePart1Answer(BOARD const& board, uint lastNumber)
+uint BingoPlayer::calculateAnswer(BOARD const& board, uint lastNumber)
 {
     return (getSumOfUnmarkedNumbers(board) * lastNumber);
 }
@@ -84,6 +100,11 @@ uint BingoPlayer::calculatePart1Answer(BOARD const& board, uint lastNumber)
 uint BingoPlayer::getPart1Answer() const
 {
     return m_part_1_answer;
+}
+
+uint BingoPlayer::getPart2Answer() const
+{
+    return m_part_2_answer;
 }
 
 uint BingoPlayer::getSumOfUnmarkedNumbers(BOARD const& board)
@@ -181,6 +202,18 @@ bool BingoPlayer::checkBingoColumn(BOARD& board, std::size_t col)
     for(std::size_t row = 0; row < BOARD_SIZE; row++)
     {
         if(!board.at(row).at(col).marked)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool BingoPlayer::checkAllBoardsCompleted() const
+{
+    for(const auto& board : m_boards)
+    {
+        if(!board.completed)
         {
             return false;
         }

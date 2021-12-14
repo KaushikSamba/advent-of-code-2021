@@ -141,4 +141,5 @@ TEST_F(BingoPlayerTest, PlayBingo)
 {
     solver.play();
     EXPECT_EQ(solver.getPart1Answer(), 4512);
+    EXPECT_EQ(solver.getPart2Answer(), 1924);
 }
