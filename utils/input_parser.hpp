@@ -37,6 +37,7 @@ template<typename T> std::vector<T> parseSpaceSeparatedLine(std::istream& stream
 }
 
 std::vector<std::vector<std::string>> parseNewLineSeparatedInputs(std::istream& stream);
+std::vector<std::string>              parseNewLineTerminatedLinesAsStrings(std::istream& stream);
 
 }  // namespace parsing
 }  // namespace utils

@@ -32,5 +32,20 @@ std::vector<std::vector<std::string>> parseNewLineSeparatedInputs(std::istream& 
     }
     return inputNewLineSeparated;
 }
+
+std::vector<std::string> parseNewLineTerminatedLinesAsStrings(std::istream& stream)
+{
+    std::vector<std::string> parsedLines;
+    std::string              line;
+    while(std::getline(stream, line, '\n'))
+    {
+        if(!line.empty())
+        {
+            parsedLines.push_back(line);
+        }
+    }
+    return parsedLines;
+}
+
 }  // namespace parsing
 }  // namespace utils

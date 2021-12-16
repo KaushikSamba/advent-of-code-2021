@@ -65,3 +65,31 @@ TEST(InputParserTest, SpaceSeparatedString)
     std::vector<unsigned int> expectedResult {22, 13, 17, 11, 0};
     EXPECT_EQ(utils::parsing::parseSpaceSeparatedLine<unsigned int>(ss), expectedResult);
 }
+
+TEST(InputParserTest, NewLineTerminatedStrings)
+{
+    std::string inputFile = R""""(0,9 -> 5,9
+8,0 -> 0,8
+9,4 -> 3,4
+2,2 -> 2,1
+7,0 -> 7,4
+6,4 -> 2,0
+0,9 -> 2,9
+3,4 -> 1,4
+0,0 -> 8,8
+5,5 -> 8,2
+)"""";
+
+    std::stringstream        ss(inputFile);
+    std::vector<std::string> expectedResult {"0,9 -> 5,9",
+                                             "8,0 -> 0,8",
+                                             "9,4 -> 3,4",
+                                             "2,2 -> 2,1",
+                                             "7,0 -> 7,4",
+                                             "6,4 -> 2,0",
+                                             "0,9 -> 2,9",
+                                             "3,4 -> 1,4",
+                                             "0,0 -> 8,8",
+                                             "5,5 -> 8,2"};
+    EXPECT_EQ(utils::parsing::parseNewLineTerminatedLinesAsStrings(ss), expectedResult);
+}
