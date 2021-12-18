@@ -1,50 +1,29 @@
 #include "fish_tracker.hpp"
 #include <algorithm>
-#include <iostream>
+#include <numeric>
 #include <sstream>
 
 namespace solution
 {
-Lanternfish::Lanternfish(uint initialTimer)
-    : internalTimer(initialTimer)
-{}
-
-bool Lanternfish::operator==(Lanternfish const& other) const
-{
-    return internalTimer == other.internalTimer;
-}
 
 FishTracker::FishTracker() = default;
 
-void FishTracker::parseInput(std::vector<uint> const& initialFishTimers)
+void FishTracker::parseInput(std::vector<long long> const& initialFishTimers)
 {
-    for(const auto& time : initialFishTimers)
+    for(long long i = 0; i <= NEW_FISH_TIME; i++)
     {
-        m_fish.emplace_back(Lanternfish {time});
+        long long count = std::count_if(
+            initialFishTimers.begin(), initialFishTimers.end(), [i](const long long& value) { return (value == i); });
+        m_fishQueue.push_back(count);
     }
 }
 
 void FishTracker::simulateOneDay()
 {
-    std::size_t numNewFish = 0;
-    for(auto& fish : m_fish)
-    {
-        if(fish.internalTimer == 0)
-        {
-            // A new fish needs to be spawned:
-            ++numNewFish;
-            fish.internalTimer = Lanternfish::FISH_RESET_TIME;
-        }
-        else
-        {
-            --fish.internalTimer;
-        }
-    }
-    while(numNewFish > 0)
-    {
-        m_fish.emplace_back(Lanternfish {Lanternfish::NEW_FISH_TIME});
-        --numNewFish;
-    }
+    auto numZeroFish = m_fishQueue.front();
+    m_fishQueue.pop_front();
+    m_fishQueue.push_back(numZeroFish);
+    m_fishQueue.at(FISH_RESET_TIME) += numZeroFish;
 }
 
 void FishTracker::simulateDays(std::size_t days)
@@ -55,9 +34,13 @@ void FishTracker::simulateDays(std::size_t days)
     }
 }
 
-std::size_t FishTracker::getNumberOfFish() const
+long long FishTracker::getNumberOfFish() const
 {
-    return m_fish.size();
+    return std::accumulate(m_fishQueue.begin(), m_fishQueue.end(), (long long)0);
 }
 
+std::deque<long long> FishTracker::getQueue() const
+{
+    return m_fishQueue;
+}
 }  // namespace solution

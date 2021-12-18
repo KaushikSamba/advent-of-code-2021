@@ -18,12 +18,12 @@ int main(int argc, char** argv)
 
     // Limit scope of file stream
     {
-        std::ifstream     stream {filename};
-        std::vector<uint> inputLines = utils::parsing::parseCommaSeparatedLine<uint>(stream);
+        std::ifstream          stream {filename};
+        std::vector<long long> inputLines = utils::parsing::parseCommaSeparatedLine<long long>(stream);
         solver.parseInput(inputLines);
     }
 
-    solver.simulateDays(80);
+    solver.simulateDays(256);
 
     std::cout << "Answer = " << solver.getNumberOfFish() << '\n';
     return 0;
